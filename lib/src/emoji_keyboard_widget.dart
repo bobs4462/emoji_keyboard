@@ -19,7 +19,6 @@ const _categoryTitleHeight = _categoryHeaderHeight; // todo: fix scroll issue
 ///
 /// Contains all emojis in a vertically scrollable grid
 class EmojiKeyboard extends StatelessWidget {
-  final bool floatingHeader;
   final int column;
   final double height;
   final OnEmojiSelected onEmojiSelected;
@@ -51,7 +50,6 @@ class EmojiKeyboard extends StatelessWidget {
     this.column = 8,
     this.height = 290.0,
     @required this.onEmojiSelected,
-    this.floatingHeader = false,
     this.color = Colors.white,
     this.categoryIcons = const CategoryIcons(),
     this.categoryTitles = const CategoryTitles(),
@@ -93,8 +91,6 @@ class EmojiKeyboard extends StatelessWidget {
                   onClick: onCategoryClick,
                   color: color,
                 ),
-                pinned: !floatingHeader,
-                floating: floatingHeader,
               ),
             ),
           ];
@@ -123,14 +119,7 @@ class EmojiKeyboard extends StatelessWidget {
                           setCategoryKey(index, key);
                           return SliverToBoxAdapter(
                             key: key,
-                            child: Container(
-                              height: _categoryTitleHeight,
-                              alignment: Alignment.centerLeft,
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(
-                                categoryTitles[index],
-                              ),
-                            ),
+                            child: Container(),
                           );
                         } else {
                           return SliverGrid(
@@ -141,10 +130,9 @@ class EmojiKeyboard extends StatelessWidget {
                             ),
                             delegate: SliverChildListDelegate.fixed(
                               snapshot.data[index ~/ 2].map((Emoji emoji) {
-                                return CupertinoButton(
-                                  key: ValueKey('${emoji.text}'),
-                                  pressedOpacity: 0.4,
-                                  padding: EdgeInsets.all(0),
+                                return MaterialButton(
+                                  // key: ValueKey('${emoji.text}'),
+                                  padding: EdgeInsets.zero,
                                   child: Center(
                                     child: Text(
                                       '${emoji.text}',
@@ -210,6 +198,7 @@ class _EmojiKeyboardHeader implements SliverPersistentHeaderDelegate {
               child: Center(
                 child: Icon(
                   categoryIcons[index],
+                  color: Colors.grey,
                   size:
                       (minExtent < maxExtent - 10) ? minExtent : maxExtent - 10,
                 ),
