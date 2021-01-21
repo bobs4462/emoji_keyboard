@@ -91,6 +91,7 @@ class EmojiKeyboard extends StatelessWidget {
                   onClick: onCategoryClick,
                   color: color,
                 ),
+                pinned: true,
               ),
             ),
           ];
